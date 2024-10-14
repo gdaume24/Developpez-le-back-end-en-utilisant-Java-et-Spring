@@ -1,11 +1,4 @@
-version: "3.7"
 services:
-  db:
-    image: mysql:5.7
-    volumes:
-      - db_data:/var/lib/mysql
-    restart: always
-    services:
   db:
     image: mysql:5.7
     volumes:
@@ -16,3 +9,33 @@ services:
       MYSQL_DATABASE: db
       MYSQL_USER: userr
       MYSQL_PASSWORD: passwordxxx
+
+  mockoon:
+    image: mockoon/cli:latest
+    # container_name: mockoon_server
+    volumes:
+      - ./Front/ressources/mockoon/rental-oc.json:/data/rental-oc.json
+    command: mockoon-cli start --data /data/mockoon-config.json --port 3000
+    ports:
+      - "3002:3000"
+
+  front:
+    image: node:20.15.0-alpine
+    volumes:
+      - ./Front:/Front
+    working_dir: /Front
+    command: sh -c "npm install && npm start"
+    ports:
+      - "4201:4200"
+
+  back:
+    build:
+      context: ./Back
+      dockerfile: Dockerfile
+    volumes:
+      - ./Back:/Back
+    ports:
+      - "8000:8000"
+
+volumes:
+  db_data:
