@@ -1,13 +1,13 @@
-package com.chatop;
+package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ChatopApplication {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ChatopApplication.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 }
