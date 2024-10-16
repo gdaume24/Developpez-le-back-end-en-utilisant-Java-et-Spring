@@ -9,7 +9,7 @@ RUN npm install -g @mockoon/cli
 
 # Copier les fichiers d'environnement Mockoon dans le conteneur
 # Supposons que vos environnements sont dans le dossier 'environments'
-COPY Front\ressources\mockoon\rental-oc.json /app/environments/rental-oc.json
+COPY Front/ressources/mockoon/rental-oc.json /app/environments/rental-oc.json
 
 # Exposer le port utilisé par Mockoon (par défaut 3000)
 EXPOSE 3000

@@ -11,11 +11,10 @@ services:
       MYSQL_PASSWORD: passwordxxx
 
   mockoon:
-    image: mockoon/cli:latest
+    build:
+      context: .
+      dockerfile: Mockoon/Dockerfile
     # container_name: mockoon_server
-    volumes:
-      - ./Front/ressources/mockoon/rental-oc.json:/data/rental-oc.json
-    command: mockoon-cli start --data /data/mockoon-config.json --port 3000
     ports:
       - "3002:3000"
 
@@ -33,9 +32,11 @@ services:
       context: ./Back
       dockerfile: Dockerfile
     volumes:
-      - ./Back:/Back
+      - ./Back:/app
     ports:
       - "8000:8000"
+    depends_on:
+      - db
 
 volumes:
   db_data:

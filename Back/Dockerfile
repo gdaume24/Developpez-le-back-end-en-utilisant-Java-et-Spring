@@ -1,5 +1,16 @@
 FROM openjdk:17-jdk-alpine
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+
+# Installer Maven (si nécessaire)
+RUN apk add --no-cache maven
+
+# Copier les fichiers de configuration
+COPY . ./app
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Exposer le port de l’application
 EXPOSE 8000
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+# Commande pour démarrer l'application avec rechargement à chaud
+CMD ["mvn", "spring-boot:run"]
