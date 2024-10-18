@@ -1,6 +1,6 @@
 {
   "/api/*": {
-    "target": "http://mockoon:3002",
+    "target": "http://host.docker.internal:3002",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

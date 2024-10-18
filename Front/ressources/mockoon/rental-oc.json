@@ -4,8 +4,8 @@
   "name": "Rental oc",
   "endpointPrefix": "api",
   "latency": 0,
-  "port": 3001,
-  "hostname": "",
+  "port": 3002,
+  "hostname": "localhost",
   "routes": [
     {
       "uuid": "822a0106-1c27-4f6b-92d0-89da3da205cf",
