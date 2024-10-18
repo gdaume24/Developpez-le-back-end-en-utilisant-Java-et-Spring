@@ -1,0 +1,60 @@
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: passwordxxx
+      MYSQL_DATABASE: db
+      MYSQL_USER: userr
+      MYSQL_PASSWORD: passwordxxx
+
+  mockoon:
+    build:
+      context: .
+      dockerfile: Mockoon/Dockerfile
+    # container_name: mockoon_server
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./Mockoon:/Mockoon
+    networks:
+      - my-network
+
+  front:
+    develop:
+      watch:
+        - action: sync
+          path: ./Front
+          target: .
+    build:
+      context: .
+      dockerfile: front.dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - my-network
+
+  back:
+    develop:
+      watch:
+        - action: sync
+          path: ./Back
+          target: .
+        - action: rebuild
+          path: ./Back/pom.xml
+    build:
+      context: .
+      dockerfile: back.dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+
+networks:
+  my-network:
+    driver: bridge
