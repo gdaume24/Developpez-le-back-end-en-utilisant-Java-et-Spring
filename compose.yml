@@ -44,7 +44,7 @@ services:
       context: .
       dockerfile: back.dockerfile
     ports:
-      - "8000:8000"
+      - "3001:3001"
     depends_on:
       - db
 

@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS my_database;
+USE my_database;
+
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS rentals;
 DROP TABLE IF EXISTS messages;
