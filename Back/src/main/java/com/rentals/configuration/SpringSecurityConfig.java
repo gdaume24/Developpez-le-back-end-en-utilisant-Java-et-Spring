@@ -1,5 +1,7 @@
 package com.rentals.configuration;
 
+import javax.crypto.spec.SecretKeySpec;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -9,13 +11,32 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 
 @Configuration
 public class SpringSecurityConfig {
-	
+
+	@Bean
+	public JwtEncoder jwtEncoder() {
+		return new NimbusJwtEncoder(new ImmutableSecret<>(this.jwtKey.getBytes()));
+	}
+
+	private String jwtKey = "6dyICVKIicnmeU4wSDJBSjGMowDhlI87XMCI0m9Tjjwd7rhEZl+41g+gMOT+Wh33";
+	@Bean
+	public JwtDecoder jwtDecoder() {
+		SecretKeySpec secretKey = new SecretKeySpec(this.jwtKey.getBytes(), 0, this.jwtKey.getBytes().length,"RSA");
+		return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS256).build();
+	}
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {		
 		return http
@@ -23,6 +44,7 @@ public class SpringSecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
+				.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
 				.build();		
 	}
 	

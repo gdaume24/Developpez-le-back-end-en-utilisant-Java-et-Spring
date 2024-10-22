@@ -1,4 +1,4 @@
-FROM mysql:5.7
+FROM mysql:9.1.0
 
 ENV MYSQL_ROOT_PASSWORD=root
 # ENV MYSQL_DATABASE=my_database

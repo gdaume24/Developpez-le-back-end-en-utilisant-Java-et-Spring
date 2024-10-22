@@ -1,5 +1,7 @@
+name: back-project-oc
 services:
   db:
+    container_name: db
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -19,6 +21,7 @@ services:
       - my-network
 
   front:
+    container_name: front
     develop:
       watch:
         - action: sync
@@ -33,13 +36,16 @@ services:
       - my-network
 
   back:
+    container_name: back
     develop:
       watch:
         - action: sync
           path: ./Back
-          target: .
+          target: /app
         - action: rebuild
           path: ./Back/pom.xml
+        - action: rebuild
+          path: ./Back/src/main/resources/application.properties
     build:
       context: .
       dockerfile: back.dockerfile
@@ -51,6 +57,7 @@ services:
 networks:
   my-network:
     driver: bridge
-  
+
 volumes:
   db_data:
+    name: db_data

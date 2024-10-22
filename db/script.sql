@@ -9,12 +9,10 @@ CREATE TABLE `USERS` (
   `id` integer PRIMARY KEY AUTO_INCREMENT,
   `email` varchar(255), 
   `name` varchar(255),
-  `password` varchar(255),
-  -- `created_at` timestamp,
-  -- `updated_at` timestamp
+  `password` varchar(255)
 );
 
-INSERT INTO users (email, password, name) VALUES ('initial@initial.com', 'Initial@1234', 'USe 1');
+INSERT INTO USERS (email, password, name) VALUES ('initial@initial.com', 'Initial@1234', 'USe 1');
 
 CREATE TABLE `RENTALS` (
   `id` integer PRIMARY KEY AUTO_INCREMENT,
