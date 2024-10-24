@@ -10,6 +10,7 @@ services:
       dockerfile: db.dockerfile
 
   mockoon:
+    container_name: mockoon
     build:
       context: .
       dockerfile: Mockoon/Dockerfile
